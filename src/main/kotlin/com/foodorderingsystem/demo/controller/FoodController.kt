@@ -1,5 +1,6 @@
 package com.foodorderingsystem.demo.controller
 
+import com.foodorderingsystem.demo.dto.FoodRequest
 import com.foodorderingsystem.demo.entity.FoodItem
 import com.foodorderingsystem.demo.service.FoodService
 import org.springframework.jdbc.core.JdbcTemplate
@@ -12,32 +13,21 @@ class FoodController(
     private val jdbcTemplate: JdbcTemplate
 ) {
 
-    // ✅ Check DB name (debug)
+    // ✅ Debug DB
     @GetMapping("/db")
     fun checkDb(): String {
         return jdbcTemplate.queryForObject("SELECT DB_NAME()", String::class.java)!!
     }
 
-    // ✅ Raw SQL (still working)
     @GetMapping("/raw")
     fun getRaw(): List<Map<String, Any>> {
         return jdbcTemplate.queryForList("SELECT * FROM dbo.FoodItems")
     }
 
-    // ✅ JPA via Service
+    // ✅ JPA
     @GetMapping
     fun getAll(): List<FoodItem> {
         return foodService.getAll()
-    }
-
-    @GetMapping("/test-jpa")
-    fun testJpa(): List<FoodItem> {
-        return foodService.getAll()
-    }
-
-    @GetMapping("/jpa-db")
-    fun checkJpaDb(): String {
-        return jdbcTemplate.queryForObject("SELECT DB_NAME()", String::class.java)!!
     }
 
     @GetMapping("/{id}")
@@ -45,17 +35,30 @@ class FoodController(
         return foodService.getById(id)
     }
 
+    // 🔥 FIXED (use DTO)
     @PostMapping
-    fun addFood(@RequestBody food: FoodItem): FoodItem {
-        return foodService.addFood(food)
+    fun addFood(@RequestBody request: FoodRequest): FoodItem {
+        return foodService.addFood(
+            request.foodName,
+            request.price,
+            request.stock,
+            request.categoryId
+        )
     }
 
+    // 🔥 FIXED (use DTO)
     @PutMapping("/{id}")
     fun updateFood(
         @PathVariable id: Long,
-        @RequestBody updated: FoodItem
+        @RequestBody request: FoodRequest
     ): FoodItem {
-        return foodService.updateFood(id, updated)
+        return foodService.updateFood(
+            id,
+            request.foodName,
+            request.price,
+            request.stock,
+            request.categoryId
+        )
     }
 
     @DeleteMapping("/{id}")

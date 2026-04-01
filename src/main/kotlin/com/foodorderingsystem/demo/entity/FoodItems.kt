@@ -21,9 +21,9 @@ data class FoodItem(
     @JsonProperty("price")
     val price: Double,
 
-    @Column(name = "Category")
-    @JsonProperty("category")
-    val category: String,
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    val category: FoodCategory,
 
     @Column(name = "Stock")
     @JsonProperty("stock")

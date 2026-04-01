@@ -4,7 +4,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "Users")
-class User(
+class   User(
 
     val name: String,
     val emailAddress: String,
