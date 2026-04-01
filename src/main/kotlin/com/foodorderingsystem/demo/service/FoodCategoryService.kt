@@ -1,5 +1,6 @@
 package com.foodorderingsystem.demo.service
 
+import com.foodorderingsystem.demo.constants.ErrorConstants
 import com.foodorderingsystem.demo.entity.FoodCategory
 import com.foodorderingsystem.demo.repository.FoodCategoryRepository
 import org.springframework.stereotype.Service
@@ -19,13 +20,13 @@ class FoodCategoryService(
 
     fun getCategoryById(id: Long): FoodCategory {
         return categoryRepository.findById(id)
-            .orElseThrow { RuntimeException("Category not found") }
+            .orElseThrow { RuntimeException(ErrorConstants.CATEGORY_NOT_FOUND) }
     }
 
     fun updateCategory(id: Long, name: String): FoodCategory {
 
         val existing = categoryRepository.findById(id)
-            .orElseThrow { RuntimeException("Category not found with id: $id") }
+            .orElseThrow { RuntimeException(ErrorConstants.CATEGORY_NOT_FOUND) }
 
         val updated = existing.copy(
             name = name
@@ -36,7 +37,7 @@ class FoodCategoryService(
 
     fun deleteCategory(id: Long) {
         if (!categoryRepository.existsById(id)) {
-            throw RuntimeException("Category not found")
+            throw RuntimeException(ErrorConstants.CATEGORY_NOT_FOUND)
         }
         categoryRepository.deleteById(id)
     }
