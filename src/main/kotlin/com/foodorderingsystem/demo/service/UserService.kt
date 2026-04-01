@@ -1,5 +1,6 @@
 package com.foodorderingsystem.demo.service
 
+import com.foodorderingsystem.demo.constants.ErrorConstants
 import com.foodorderingsystem.demo.dto.LoginRequest
 import com.foodorderingsystem.demo.dto.RegisterRequest
 import com.foodorderingsystem.demo.entity.User
@@ -38,16 +39,15 @@ class UserService(
         return "Register success!"
     }
 
-    fun login(request: LoginRequest): String {
-
+    fun login(request: LoginRequest): User {
         val user = userRepository.findByEmailAddress(request.emailAddress)
-            ?: return "User not found"
+            ?: throw RuntimeException(ErrorConstants.USER_NOT_FOUND)
 
         if (!passwordEncoder.matches(request.password, user.password)) {
-            return "Wrong password!"
+            throw RuntimeException(ErrorConstants.WRONG_PASSWORD)
         }
 
-        return "Login success!"
+        return user
     }
 
     fun getAllUsers(): List<User> {

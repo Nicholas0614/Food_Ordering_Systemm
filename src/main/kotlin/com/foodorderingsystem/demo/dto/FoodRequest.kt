@@ -4,5 +4,6 @@ data class FoodRequest(
     val foodName: String,
     val price: Double,
     val stock: Int,
-    val categoryId: Long
+    val categoryId: Long,
+    val imageUrl: String? = null
 )

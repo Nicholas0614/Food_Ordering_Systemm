@@ -21,6 +21,10 @@ data class FoodItem(
     @JsonProperty("price")
     val price: Double,
 
+    @Column(name = "ImageUrl")
+    @JsonProperty("imageUrl")
+    val imageUrl: String? = null,
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     val category: FoodCategory,

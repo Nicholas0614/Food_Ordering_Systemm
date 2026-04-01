@@ -26,7 +26,8 @@ class FoodService(
         foodName: String,
         price: Double,
         stock: Int,
-        categoryId: Long
+        categoryId: Long,
+        imageUrl: String? = null
     ): FoodItem {
 
         val category = categoryRepo.findById(categoryId).orElseThrow {
@@ -37,7 +38,9 @@ class FoodService(
             foodName = foodName,
             price = price,
             stock = stock,
-            category = category
+            category = category,
+            imageUrl = imageUrl
+
         )
 
         return repo.save(food)
@@ -49,7 +52,9 @@ class FoodService(
         foodName: String,
         price: Double,
         stock: Int,
-        categoryId: Long
+        categoryId: Long,
+        imageUrl: String? = null
+
     ): FoodItem {
 
         val existing = repo.findById(id).orElseThrow {
@@ -64,7 +69,8 @@ class FoodService(
             foodName = foodName,
             price = price,
             stock = stock,
-            category = category
+            category = category,
+            imageUrl = imageUrl
         )
 
         return repo.save(updatedFood)

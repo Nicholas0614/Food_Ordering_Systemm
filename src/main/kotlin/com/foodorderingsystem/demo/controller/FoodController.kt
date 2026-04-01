@@ -42,7 +42,8 @@ class FoodController(
             request.foodName,
             request.price,
             request.stock,
-            request.categoryId
+            request.categoryId,
+            request.imageUrl
         )
     }
 
